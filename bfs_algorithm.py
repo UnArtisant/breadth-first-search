@@ -18,30 +18,40 @@ def create_graph(edges):
         if u not in graph:
             graph[u] = []
         graph[u].append(v)
+        # If it's undirected graph, add reverse edge too
+        # graph[v].append(u) 
     return graph
 
-def bfs(list, s, visited):
+def bfs(graph, s, visited):
     queue = deque()
-
     visited[s] = True
     queue.append(s)
 
-    while len(queue) != 0:
+    print(f"Starting BFS from node: {s}")
+    while queue:
         current = queue.popleft()
-        print(current, end=" ")
-        for i in list.get(current, []):
-            if visited[i] == False:
+        print(f"Visited node: {current}")
+        
+        for i in graph.get(current, []):
+            if not visited[i]:
                 visited[i] = True
                 queue.append(i)
 
-    print("\nQueue: " + str(list))
-    print("\nArray A: " + str(visited))
+        # Debug: Print the current state of the queue and visited array
+        print(f"Current queue: {list(queue)}")
+    print("\nVisited array after BFS traversal:", visited)
 
-def bfs_graph(list):
-    visited= {node: False for node in list}
-    for i in list:
-        if visited[i] == False:
-            bfs(list, i, visited)
+def bfs_graph(graph):
+    visited = {node: False for node in graph}
+    count = 0
 
+    for i in graph:
+        if not visited[i]:
+            count += 1
+            bfs(graph, i, visited)
+            print(f"Connected component count: {count}")
+
+# Example usage
 graph = create_graph(read_edges_from_file('bfs.txt'))
 bfs_graph(graph)
+
