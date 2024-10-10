@@ -1,10 +1,13 @@
 from collections import deque
+import re
 
 def read_edges_from_file(filename):
     edges = []
     with open(filename, 'r') as file:
-        for line in file:
-            u, v = map(int, line.strip().split(','))
+        content = file.read()
+        matches = re.findall(r'\((\d+),(\d+)\)', content)
+        for match in matches:
+            u, v = map(int, match) 
             edges.append((u, v))
     return edges
 
@@ -26,14 +29,17 @@ def bfs(list, s, visited):
     while len(queue) != 0:
         current = queue.popleft()
         print(current, end=" ")
-        for i in list[current]:
+        for i in list.get(current, []):
             if visited[i] == False:
                 visited[i] = True
                 queue.append(i)
 
+    print("\nQueue: " + str(list))
+    print("\nArray A: " + str(visited))
+
 def bfs_graph(list):
-    visited= [False] * len(list)
-    for i in range(len(list)):
+    visited= {node: False for node in list}
+    for i in list:
         if visited[i] == False:
             bfs(list, i, visited)
 
