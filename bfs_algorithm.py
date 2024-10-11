@@ -20,7 +20,7 @@ def create_graph(edges):
         graph[u].append(v)
     return graph
 
-def bfs(graph, s, visited):
+def bfs(graph, s, visited, L):
     queue = deque()
     visited[s] = True
     queue.append(s)
@@ -28,6 +28,7 @@ def bfs(graph, s, visited):
     print(f"Starting BFS from node: {s}")
     while queue:
         current = queue.popleft()
+        L.append(current)
         print(f"Visited node: {current}")
         
         for i in graph.get(current, []):
@@ -35,18 +36,18 @@ def bfs(graph, s, visited):
                 visited[i] = True
                 queue.append(i)
         print(f"Current queue: {list(queue)}")
-    print("\nVisited array after BFS traversal:", visited)
+        print("\nVisited array after BFS traversal:", visited)
 
 def bfs_graph(graph):
     visited = {node: False for node in graph}
-    count = 0
+    L = []
 
     for i in graph:
         if not visited[i]:
-            count += 1
-            bfs(graph, i, visited)
-            print(f"Connected component count: {count}")
+            bfs(graph, i, visited, L)
+    return L
 
 graph = create_graph(read_edges_from_file('bfs.txt'))
-bfs_graph(graph)
+bfs_order = bfs_graph(graph)
+print("BFS Traversal Order:", bfs_order)
 
