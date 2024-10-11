@@ -18,8 +18,6 @@ def create_graph(edges):
         if u not in graph:
             graph[u] = []
         graph[u].append(v)
-        # If it's undirected graph, add reverse edge too
-        # graph[v].append(u) 
     return graph
 
 def bfs(graph, s, visited):
@@ -36,8 +34,6 @@ def bfs(graph, s, visited):
             if not visited[i]:
                 visited[i] = True
                 queue.append(i)
-
-        # Debug: Print the current state of the queue and visited array
         print(f"Current queue: {list(queue)}")
     print("\nVisited array after BFS traversal:", visited)
 
@@ -51,7 +47,6 @@ def bfs_graph(graph):
             bfs(graph, i, visited)
             print(f"Connected component count: {count}")
 
-# Example usage
 graph = create_graph(read_edges_from_file('bfs.txt'))
 bfs_graph(graph)
 
